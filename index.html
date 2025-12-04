@@ -7,818 +7,379 @@
 
   <style>
     :root {
+      --primary: #7c3aed;
+      --primary-soft: rgba(124, 58, 237, 0.2);
       --bg: #050816;
       --bg-card: #0b1020;
-      --accent: #7c3aed;
-      --accent-soft: rgba(124, 58, 237, 0.2);
       --text-main: #f9fafb;
       --text-muted: #9ca3af;
-      --border-soft: #1f2933;
-      --radius-lg: 14px;
-      --radius-md: 10px;
-      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.8);
+      --border: rgba(148, 163, 184, 0.18);
+      --shadow: rgba(15, 23, 42, 0.8);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    [data-theme="red"] {
+      --primary: #ef4444;
+      --primary-soft: rgba(239, 68, 68, 0.2);
+      --bg: #1f0f0f;
+      --bg-card: #2d0f0f;
     }
+
+    [data-theme="blue"] {
+      --primary: #3b82f6;
+      --primary-soft: rgba(59, 130, 246, 0.2);
+      --bg: #0a1629;
+      --bg-card: #1a233f;
+    }
+
+    [data-theme="orange"] {
+      --primary: #f97316;
+      --primary-soft: rgba(249, 115, 22, 0.2);
+      --bg: #1a0f08;
+      --bg-card: #2a190f;
+    }
+
+    [data-theme="green"] {
+      --primary: #10b981;
+      --primary-soft: rgba(16, 185, 129, 0.2);
+      --bg: #081a10;
+      --bg-card: #122a1a;
+    }
+
+    [data-theme="gray"] {
+      --primary: #6b7280;
+      --primary-soft: rgba(107, 114, 128, 0.2);
+      --bg: #111827;
+      --bg-card: #1f2937;
+    }
+
+    [data-theme="black"] {
+      --primary: #ffffff;
+      --primary-soft: rgba(255, 255, 255, 0.1);
+      --bg: #000000;
+      --bg-card: #111111;
+      --text-main: #ffffff;
+    }
+
+    [data-theme="white"] {
+      --primary: #000000;
+      --primary-soft: rgba(0, 0, 0, 0.1);
+      --bg: #f8fafc;
+      --bg-card: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border: rgba(148, 163, 184, 0.2);
+    }
+
+    [data-theme="cyan"] {
+      --primary: #06b6d4;
+      --primary-soft: rgba(6, 182, 212, 0.2);
+      --bg: #082c30;
+      --bg-card: #164e54;
+    }
+
+    [data-theme="pink"] {
+      --primary: #ec4899;
+      --primary-soft: rgba(236, 72, 153, 0.2);
+      --bg: #200a15;
+      --bg-card: #3a0f22;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #111827 0, #020617 50%, #020617 100%);
+      background: radial-gradient(circle at top, var(--bg) 0%, var(--bg) 100%);
       color: var(--text-main);
       min-height: 100vh;
       padding: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
+      transition: all 0.3s ease;
     }
 
     .shell {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(12,10,24,0.98));
-      border-radius: 24px;
-      box-shadow: var(--shadow-soft);
-      border: 1px solid rgba(148, 163, 184, 0.18);
-      overflow: hidden;
+      width: 100%; max-width: 1600px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+      background: linear-gradient(135deg, var(--bg-card), rgba(12,10,24,0.98));
+      border-radius: 24px; box-shadow: 0 18px 45px var(--shadow);
+      border: 1px solid var(--border); overflow: hidden;
+      transition: all 0.3s ease;
     }
 
-    /* Top bar / branding */
     .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 20px;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.18);
-      background: linear-gradient(90deg, rgba(15,23,42,0.9), rgba(55,48,163,0.4));
-      position: relative;
-      z-index: 5;
+      grid-column: 1 / -1;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 24px; border-bottom: 1px solid var(--border);
+      background: linear-gradient(90deg, rgba(15,23,42,0.9), var(--primary-soft));
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
+    .brand { display: flex; align-items: center; gap: 12px; }
     .brand-logo {
-      width: 26px;
-      height: 26px;
-      border-radius: 999px;
-      background: conic-gradient(from 200deg, #7c3aed, #22d3ee, #f97316, #7c3aed);
-      position: relative;
-      box-shadow: 0 0 16px rgba(124, 58, 237, 0.8);
+      width: 32px; height: 32px; border-radius: 999px;
+      background: conic-gradient(from 200deg, var(--primary), #22d3ee, #f97316, var(--primary));
+      box-shadow: 0 0 20px var(--primary-soft); position: relative;
     }
-
     .brand-logo::after {
-      content: "";
-      position: absolute;
-      inset: 4px;
-      border-radius: inherit;
-      background: radial-gradient(circle at 30% 20%, #0f172a, #020617);
+      content: ""; position: absolute; inset: 4px; border-radius: inherit;
+      background: radial-gradient(circle at 30% 20%, var(--bg-card), var(--bg));
     }
+    .brand-text-main { font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; font-size: 1rem; }
+    .brand-text-sub { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.15em; }
 
-    .brand-text-main {
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      font-size: 0.88rem;
-    }
-
-    .brand-text-sub {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-    }
-
-    .status-pill {
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(16, 185, 129, 0.18);
-      color: #6ee7b7;
-      font-size: 0.7rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.26);
-    }
-
-    .top-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .top-pill {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      background: radial-gradient(circle at top, rgba(148,163,184,0.13), transparent);
-    }
-
-    .top-btn {
-      border-radius: 999px;
-      border: none;
-      padding: 6px 14px;
-      font-size: 0.75rem;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      background: linear-gradient(135deg, #7c3aed, #4f46e5);
-      color: white;
-      cursor: pointer;
-      box-shadow: 0 10px 30px rgba(79, 70, 229, 0.65);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .top-btn span {
-      font-size: 1rem;
-    }
-
-    /* Content layout */
-    .content {
-      padding: 18px 20px 22px;
-      display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 2.2fr);
-      gap: 18px;
-    }
-
-    @media (max-width: 960px) {
-      .content {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    /* Left panel: overview */
     .panel {
-      background: radial-gradient(circle at top left, rgba(79,70,229,0.18), transparent 60%),
-                  radial-gradient(circle at bottom right, rgba(8,47,73,0.25), transparent 55%),
-                  var(--bg-card);
-      border-radius: 18px;
-      border: 1px solid rgba(148, 163, 184, 0.24);
-      padding: 16px 16px 14px;
-      position: relative;
-      overflow: hidden;
+      background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border);
+      padding: 24px; display: flex; flex-direction: column; gap: 20px; transition: all 0.3s ease;
     }
 
-    .panel::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 5% 5%, rgba(253, 224, 71, 0.16), transparent 55%);
-      opacity: 0.7;
-      pointer-events: none;
-    }
-
-    .panel-header {
-      position: relative;
-      z-index: 1;
-      margin-bottom: 12px;
-    }
-
-    .panel-title {
-      font-size: 0.95rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-
-    .panel-subtitle {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .chip-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
+    .panel-header { display: flex; flex-direction: column; gap: 6px; }
+    .panel-title { font-size: 1rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-main); }
+    .panel-subtitle { font-size: 0.82rem; color: var(--text-muted); }
+    .chip-row { display: flex; flex-wrap: wrap; gap: 10px; }
     .chip {
-      font-size: 0.72rem;
-      padding: 5px 9px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      background: rgba(15, 23, 42, 0.8);
-      color: var(--text-muted);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+      font-size: 0.72rem; padding: 6px 12px; border-radius: 14px; border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.6); color: var(--text-muted); display: flex; align-items: center; gap: 6px;
     }
 
-    .chip-pill {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, #22d3ee, #7c3aed);
-    }
-
-    .server-list {
-      position: relative;
-      z-index: 1;
-      margin-top: 8px;
-      display: grid;
-      gap: 8px;
-    }
-
+    .server-list { display: flex; flex-direction: column; gap: 14px; }
     .server-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 10px;
-      border-radius: 12px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(55, 65, 81, 0.9);
+      display: flex; align-items: center; justify-content: space-between; padding: 16px 20px;
+      border-radius: 16px; background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border);
+      cursor: default; transition: all 0.25s ease;
     }
-
-    .server-main {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .server-item:hover {
+      background: var(--primary-soft); border-color: var(--primary); transform: translateY(-2px);
+      box-shadow: 0 12px 35px var(--primary-soft);
     }
-
+    .server-main { display: flex; align-items: center; gap: 14px; }
     .server-badge {
-      width: 24px;
-      height: 24px;
-      border-radius: 8px;
-      background: radial-gradient(circle at 30% 20%, rgba(248, 250, 252, 0.9), rgba(55, 48, 163, 0.9));
-      box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.35);
-      font-size: 0.7rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #020617;
+      width: 32px; height: 32px; border-radius: 12px;
+      background: radial-gradient(circle at 30% 20%, rgba(248, 250, 252, 0.95), var(--primary));
+      box-shadow: 0 0 0 2px var(--border); font-size: 0.85rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center; color: var(--bg);
+    }
+    .server-text-main { font-size: 0.95rem; font-weight: 600; }
+    .server-text-sub { font-size: 0.78rem; color: var(--text-muted); }
+    .server-action { display: flex; gap: 10px; }
+    .server-btn {
+      padding: 10px 18px; border-radius: 12px; border: none; font-size: 0.78rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer;
+      background: linear-gradient(135deg, var(--primary), #5b21b6); color: white;
+      transition: all 0.25s ease; box-shadow: 0 8px 25px var(--primary-soft);
+    }
+    .server-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 40px var(--primary-soft); }
+
+    /* Right side: Instructions + Themes */
+    .right-side { display: grid; grid-template-rows: 1fr 1fr; gap: 24px; }
+
+    .instructions-list { display: flex; flex-direction: column; gap: 16px; font-size: 0.88rem; }
+    .instruction-item { display: flex; align-items: flex-start; gap: 14px; }
+    .instruction-number {
+      width: 32px; height: 32px; border-radius: 50%; background: var(--primary); color: white;
+      display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem;
+      flex-shrink: 0;
     }
 
-    .server-text-main {
-      font-size: 0.86rem;
-      font-weight: 500;
+    .themes-panel { display: flex; flex-direction: column; gap: 16px; }
+    .theme-title {
+      font-size: 0.95rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-main);
+    }
+    .theme-selector {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; padding: 16px;
+      background: rgba(15, 23, 42, 0.4); border-radius: 16px; border: 1px solid var(--border);
+    }
+    .theme-btn {
+      width: 36px; height: 36px; border-radius: 50%; border: 3px solid transparent; cursor: pointer;
+      transition: all 0.25s ease; position: relative;
+    }
+    .theme-btn.purple { background: #7c3aed; }
+    .theme-btn.red { background: #ef4444; }
+    .theme-btn.blue { background: #3b82f6; }
+    .theme-btn.orange { background: #f97316; }
+    .theme-btn.green { background: #10b981; }
+    .theme-btn.gray { background: #6b7280; }
+    .theme-btn.black { background: #000; }
+    .theme-btn.white { background: #fff; }
+    .theme-btn.cyan { background: #06b6d4; }
+    .theme-btn.pink { background: #ec4899; }
+    .theme-btn:hover { transform: scale(1.1); box-shadow: 0 0 0 4px var(--primary); }
+    .theme-btn.active {
+      border-color: white; box-shadow: 0 0 0 4px white, 0 0 0 8px var(--primary); transform: scale(1.15);
     }
 
-    .server-text-sub {
-      font-size: 0.74rem;
-      color: var(--text-muted);
+    .iframe-overlay {
+      display: none; position: fixed; inset: 5%; width: 90vw; height: 90vh;
+      background: var(--bg-card); border-radius: 24px; box-shadow: 0 0 80px var(--primary-soft);
+      z-index: 10000; flex-direction: column; border: 3px solid var(--primary); transition: all 0.4s ease;
     }
-
-    .server-meta {
-      font-size: 0.72rem;
-      color: var(--text-muted);
+    .iframe-overlay.active { display: flex; }
+    .iframe-overlay-header {
+      display: flex; justify-content: space-between; align-items: center; padding: 20px 28px;
+      border-bottom: 1px solid var(--border); background: var(--primary-soft);
     }
-
-    /* Right panel: iframe grid */
-    .iframe-panel {
-      background: radial-gradient(circle at top, rgba(15,23,42,0.9), rgba(2,6,23,0.95));
-      border-radius: 18px;
-      border: 1px solid rgba(148, 163, 184, 0.24);
-      padding: 14px 14px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+    .iframe-overlay-title { font-weight: 700; font-size: 1.1rem; color: var(--text-main); }
+    .iframe-overlay iframe {
+      flex: 1; border: none; border-radius: 0 0 24px 24px; width: 100%; height: 100%;
     }
-
-    .iframe-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 6px;
-      gap: 8px;
+    .overlay-close {
+      background: rgba(15, 23, 42, 0.8); border: 2px solid var(--primary); color: white;
+      width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 1.3rem;
+      font-weight: 700; display: flex; align-items: center; justify-content: center;
+      transition: all 0.25s ease;
     }
+    .overlay-close:hover { background: var(--primary); transform: scale(1.05); }
 
-    .iframe-header-title {
-      font-size: 0.86rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--text-muted);
-    }
-
-    .iframe-header-title span {
-      color: #e5e7eb;
-      font-weight: 600;
-    }
-
-    .iframe-header-controls {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-
-    .iframe-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    @media (max-width: 1024px) {
-      .iframe-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 640px) {
-      .iframe-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    .slot {
-      background: radial-gradient(circle at top left, var(--accent-soft), transparent 70%),
-                  rgba(15, 23, 42, 0.95);
-      border-radius: var(--radius-lg);
-      border: 1px solid rgba(75, 85, 99, 0.9);
-      padding: 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .slot-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-
-    .slot-label {
-      font-weight: 500;
-      color: #e5e7eb;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    .slot-tag {
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 0.7rem;
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .slot-iframe-wrap {
-      position: relative;
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      background: #020617;
-      border: 1px solid rgba(31, 41, 55, 0.9);
-      min-height: 140px;
-    }
-
-    .slot iframe {
-      width: 100%;
-      height: 210px;
-      border: none;
-      background: #020617;
-      display: block;
-    }
-
-    @media (max-width: 640px) {
-      .slot iframe {
-        height: 190px;
-      }
-    }
-
-    .slot-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, rgba(15,23,42,0.85), transparent 55%);
-      pointer-events: none;
-    }
-
-    .slot-controls {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 4px;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      gap: 6px;
-    }
-
-    .slot-legend {
-      display: flex;
-      gap: 5px;
-      flex-wrap: wrap;
-    }
-
-    .slot-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: #22c55e;
-    }
-
-    .slot-btns {
-      display: flex;
-      gap: 6px;
-    }
-
-    .slot-btn {
-      border-radius: 999px;
-      border: none;
-      padding: 4px 9px;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.09em;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      background: rgba(15, 23, 42, 0.95);
-      color: #e5e7eb;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-    }
-
-    .slot-btn-primary {
-      background: linear-gradient(135deg, #7c3aed, #4f46e5);
-      border-color: transparent;
-      color: white;
-      box-shadow: 0 8px 20px rgba(79, 70, 229, 0.7);
-    }
-
-    .slot-btn-icon {
-      font-size: 0.9rem;
-    }
-
-    .hint {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      margin-top: 2px;
-      text-align: right;
+    @media (max-width: 1200px) {
+      .shell { grid-template-columns: 1fr; max-width: 900px; }
+      .right-side { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
   <div class="shell">
-    <!-- Top bar -->
     <header class="topbar">
       <div class="brand">
         <div class="brand-logo"></div>
         <div>
-          <div class="brand-text-main">Eclipse</div>
-          <div class="brand-text-sub">Multi‑Server Chat Gateway</div>
+          <div class="brand-text-main">Eclipse Chat Hub</div>
+          <div class="brand-text-sub">Multi-Server Gateway</div>
         </div>
-      </div>
-      <div class="top-actions">
-        <div class="status-pill">
-          <span class="status-dot"></span>
-          Live routing
-        </div>
-        <div class="top-pill">4 servers • 8 slots</div>
-        <button class="top-btn" onclick="document.documentElement.requestFullscreen?.()">
-          <span>⛶</span> Fullscreen shell
-        </button>
       </div>
     </header>
 
-    <main class="content">
-      <!-- Left: Overview -->
+    <section class="panel">
+      <div class="panel-header">
+        <div class="panel-title">Servers</div>
+        <div class="panel-subtitle">Click Create or Join to launch chat</div>
+        <div class="chip-row">
+          <div class="chip">4 Live servers</div>
+          <div class="chip">Instant overlay</div>
+        </div>
+      </div>
+      <div class="server-list">
+        <div class="server-item">
+          <div class="server-main">
+            <div class="server-badge">1</div>
+            <div><div class="server-text-main">Server 1</div><div class="server-text-sub">Primary Jitsi</div></div>
+          </div>
+          <div class="server-action">
+            <button class="server-btn" onclick="launchChat('https://freejitsi01.netcup.net/')">Create</button>
+            <button class="server-btn" onclick="launchChat('https://freejitsi01.netcup.net/myamazingchatforvicormadebyme')">Join</button>
+          </div>
+        </div>
+        <div class="server-item">
+          <div class="server-main">
+            <div class="server-badge">2</div>
+            <div><div class="server-text-main">Server 2</div><div class="server-text-sub">TU Ilmenau Jitsi</div></div>
+          </div>
+          <div class="server-action">
+            <button class="server-btn" onclick="launchChat('https://jitsi.fem.tu-ilmenau.de')">Create</button>
+            <button class="server-btn" onclick="launchChat('https://jitsi.fem.tu-ilmenau.de/myamazingchatforvicormadebyme')">Join</button>
+          </div>
+        </div>
+        <div class="server-item">
+          <div class="server-main">
+            <div class="server-badge">3</div>
+            <div><div class="server-text-main">Server 3</div><div class="server-text-sub">Whereby</div></div>
+          </div>
+          <div class="server-action">
+            <button class="server-btn" onclick="launchChat('https://whereby.com/')">Create</button>
+            <button class="server-btn" onclick="launchChat('https://whereby.com/myamazingchatforvictor')">Join</button>
+          </div>
+        </div>
+        <div class="server-item">
+          <div class="server-main">
+            <div class="server-badge">4</div>
+            <div><div class="server-text-main">Server 4</div><div class="server-text-sub">Spare slot</div></div>
+          </div>
+          <div class="server-action">
+            <button class="server-btn" onclick="launchChat('https://example.com/chat4-create')">Create</button>
+            <button class="server-btn" onclick="launchChat('https://example.com/chat4-join')">Join</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="right-side">
       <section class="panel">
         <div class="panel-header">
-          <div class="panel-title">Routing overview</div>
-          <div class="panel-subtitle">
-            Pick any server, then choose Create or Join to open that chat in its own slot.
-          </div>
-          <div class="chip-row">
-            <div class="chip">
-              <span class="chip-pill"></span>
-              Eclipse-branded shell
-            </div>
-            <div class="chip">
-              <span class="chip-pill"></span>
-              Per-slot fullscreen
-            </div>
-            <div class="chip">
-              <span class="chip-pill"></span>
-            
-            </div>
-          </div>
+          <div class="panel-title">How to use</div>
+          <div class="panel-subtitle">Quick start guide</div>
         </div>
-
-        <div class="server-list">
-          <div class="server-item">
-            <div class="server-main">
-              <div class="server-badge">1</div>
-              <div>
-                <div class="server-text-main">Server 1</div>
-                <div class="server-text-sub">Primary low-latency hub</div>
-              </div>
-            </div>
-            <div class="server-meta">Create / Join</div>
+        <div class="instructions-list">
+          <div class="instruction-item">
+            <div class="instruction-number">1</div>
+            <div>Click <strong>Create</strong> to start new chat room</div>
           </div>
-          <div class="server-item">
-            <div class="server-main">
-              <div class="server-badge">2</div>
-              <div>
-                <div class="server-text-main">Server 2</div>
-                <div class="server-text-sub">Backup or alt chat</div>
-              </div>
-            </div>
-            <div class="server-meta">Create / Join</div>
+          <div class="instruction-item">
+            <div class="instruction-number">2</div>
+            <div>Click <strong>Join</strong> to enter existing room</div>
           </div>
-          <div class="server-item">
-            <div class="server-main">
-              <div class="server-badge">3</div>
-              <div>
-                <div class="server-text-main">Server 3</div>
-                <div class="server-text-sub">Experimental or new host</div>
-              </div>
-            </div>
-            <div class="server-meta">Create / Join</div>
+          <div class="instruction-item">
+            <div class="instruction-number">3</div>
+            <div>Large overlay opens - use <strong>X</strong> to close</div>
           </div>
-          <div class="server-item">
-            <div class="server-main">
-              <div class="server-badge">4</div>
-              <div>
-                <div class="server-text-main">Server 4</div>
-                <div class="server-text-sub">Spare or private node</div>
-              </div>
-            </div>
-            <div class="server-meta">Create / Join</div>
+          <div class="instruction-item">
+            <div class="instruction-number">4</div>
+            <div>Pick theme below - saves automatically</div>
+          </div>
+          <div class="instruction-item">
+            <div class="instruction-number">5</div>
+            <div>Works on GitHub Pages instantly</div>
           </div>
         </div>
       </section>
 
-      <!-- Right: Iframe grid -->
-      <section class="iframe-panel">
-        <div class="iframe-header">
-          <div class="iframe-header-title">
-            Eclipse slots <span>Server 1–4</span>
-          </div>
-          <div class="iframe-header-controls">
-            <span>⛶ per slot fullscreen</span>
-            <span>•</span>
-            <span>Pick any of the 8 options</span>
-          </div>
+      <section class="panel themes-panel">
+        <div class="panel-header">
+          <div class="theme-title">Color Themes</div>
+          <div class="panel-subtitle">Click to change - persists</div>
         </div>
-
-        <div class="iframe-grid">
-          <!-- S1 Create -->
-          <div class="slot">
-            <div class="slot-header">
-              <span class="slot-label">Server 1</span>
-              <span class="slot-tag">Create</span>
-            </div>
-            <div class="slot-iframe-wrap">
-              <iframe
-                id="s1-create"
-                src="https://freejitsi01.netcup.net/"
-                allow="fullscreen"
-              ></iframe>
-              <div class="slot-overlay"></div>
-            </div>
-            <div class="slot-controls">
-              <div class="slot-legend">
-                <span class="slot-dot"></span>
-             
-              </div>
-              <div class="slot-btns">
-                <button class="slot-btn slot-btn-primary" onclick="goFull('s1-create')">
-                  <span class="slot-btn-icon">⛶</span>
-                  Fullscreen
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- S1 Join -->
-          <div class="slot">
-            <div class="slot-header">
-              <span class="slot-label">Server 1</span>
-              <span class="slot-tag">Join</span>
-            </div>
-            <div class="slot-iframe-wrap">
-              <iframe
-                id="s1-join"
-                src="https://freejitsi01.netcup.net/myamazingchatforvicormadebyme"
-                allow="fullscreen"
-              ></iframe>
-              <div class="slot-overlay"></div>
-            </div>
-            <div class="slot-controls">
-              <div class="slot-legend">
-                <span class="slot-dot"></span>
-              
-              </div>
-              <div class="slot-btns">
-                <button class="slot-btn slot-btn-primary" onclick="goFull('s1-join')">
-                  <span class="slot-btn-icon">⛶</span>
-                  Fullscreen
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- S2 Create -->
-          <div class="slot">
-            <div class="slot-header">
-              <span class="slot-label">Server 2</span>
-              <span class="slot-tag">Create</span>
-            </div>
-            <div class="slot-iframe-wrap">
-              <iframe
-                id="s2-create"
-                src="https://jitsi.fem.tu-ilmenau.de"
-                allow="fullscreen"
-              ></iframe>
-              <div class="slot-overlay"></div>
-            </div>
-            <div class="slot-controls">
-              <div class="slot-legend">
-                <span class="slot-dot"></span>
-             
-              </div>
-              <div class="slot-btns">
-                <button class="slot-btn slot-btn-primary" onclick="goFull('s2-create')">
-                  <span class="slot-btn-icon">⛶</span>
-                  Fullscreen
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- S2 Join -->
-          <div class="slot">
-            <div class="slot-header">
-              <span class="slot-label">Server 2</span>
-              <span class="slot-tag">Join</span>
-            </div>
-            <div class="slot-iframe-wrap">
-              <iframe
-                id="s2-join"
-                src="https://jitsi.fem.tu-ilmenau.de/myamazingchatforvicormadebyme"
-                allow="fullscreen"
-              ></iframe>
-              <div class="slot-overlay"></div>
-            </div>
-            <div class="slot-controls">
-              <div class="slot-legend">
-                <span class="slot-dot"></span>
-              
-              </div>
-              <div class="slot-btns">
-                <button class="slot-btn slot-btn-primary" onclick="goFull('s2-join')">
-                  <span class="slot-btn-icon">⛶</span>
-                  Fullscreen
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- S3 Create -->
-          <div class="slot">
-            <div class="slot-header">
-              <span class="slot-label">Server 3</span>
-              <span class="slot-tag">Create</span>
-            </div>
-            <div class="slot-iframe-wrap">
-              <iframe
-                id="s3-create"
-                src="https://whereby.com/"
-                allow="fullscreen"
-              ></iframe>
-              <div class="slot-overlay"></div>
-            </div>
-            <div class="slot-controls">
-              <div class="slot-legend">
-                <span class="slot-dot"></span>
-              
-              </div>
-              <div class="slot-btns">
-                <button class="slot-btn slot-btn-primary" onclick="goFull('s3-create')">
-                  <span class="slot-btn-icon">⛶</span>
-                  Fullscreen
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- S3 Join -->
-          <div class="slot">
-            <div class="slot-header">
-              <span class="slot-label">Server 3</span>
-              <span class="slot-tag">Join</span>
-            </div>
-            <div class="slot-iframe-wrap">
-              <iframe
-                id="s3-join"
-                src="https://whereby.com/myamazingchatforvictor"
-                allow="fullscreen"
-              ></iframe>
-              <div class="slot-overlay"></div>
-            </div>
-            <div class="slot-controls">
-              <div class="slot-legend">
-                <span class="slot-dot"></span>
-               
-              </div>
-              <div class="slot-btns">
-                <button class="slot-btn slot-btn-primary" onclick="goFull('s3-join')">
-                  <span class="slot-btn-icon">⛶</span>
-                  Fullscreen
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- S4 Create -->
-          <div class="slot">
-            <div class="slot-header">
-              <span class="slot-label">Server 4</span>
-              <span class="slot-tag">Create</span>
-            </div>
-            <div class="slot-iframe-wrap">
-              <iframe
-                id="s4-create"
-                src="https://example.com/chat4-create"
-                allow="fullscreen"
-              ></iframe>
-              <div class="slot-overlay"></div>
-            </div>
-            <div class="slot-controls">
-              <div class="slot-legend">
-                <span class="slot-dot"></span>
-           
-              </div>
-              <div class="slot-btns">
-                <button class="slot-btn slot-btn-primary" onclick="goFull('s4-create')">
-                  <span class="slot-btn-icon">⛶</span>
-                  Fullscreen
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- S4 Join -->
-          <div class="slot">
-            <div class="slot-header">
-              <span class="slot-label">Server 4</span>
-              <span class="slot-tag">Join</span>
-            </div>
-            <div class="slot-iframe-wrap">
-              <iframe
-                id="s4-join"
-                src="https://example.com/chat4-join"
-                allow="fullscreen"
-              ></iframe>
-              <div class="slot-overlay"></div>
-            </div>
-            <div class="slot-controls">
-              <div class="slot-legend">
-                <span class="slot-dot"></span>
-             
-              </div>
-              <div class="slot-btns">
-                <button class="slot-btn slot-btn-primary" onclick="goFull('s4-join')">
-                  <span class="slot-btn-icon">⛶</span>
-                  Fullscreen
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="hint">
-          Tip: Replace each <code>src="https://example.com/…"</code> with the chat URLs you want.
+        <div class="theme-selector">
+          <button class="theme-btn purple active" data-theme="purple" title="Purple"></button>
+          <button class="theme-btn red" data-theme="red" title="Red"></button>
+          <button class="theme-btn blue" data-theme="blue" title="Blue"></button>
+          <button class="theme-btn orange" data-theme="orange" title="Orange"></button>
+          <button class="theme-btn green" data-theme="green" title="Green"></button>
+          <button class="theme-btn gray" data-theme="gray" title="Gray"></button>
+          <button class="theme-btn black" data-theme="black" title="Black"></button>
+          <button class="theme-btn white" data-theme="white" title="White"></button>
+          <button class="theme-btn cyan" data-theme="cyan" title="Cyan"></button>
+          <button class="theme-btn pink" data-theme="pink" title="Pink"></button>
         </div>
       </section>
-    </main>
+    </div>
+  </div>
+
+  <div id="chatOverlay" class="iframe-overlay">
+    <div class="iframe-overlay-header">
+      <div class="iframe-overlay-title">Live Chat</div>
+      <button class="overlay-close" onclick="closeChat()">✕</button>
+    </div>
+    <iframe id="chatFrame"></iframe>
   </div>
 
   <script>
-    function goFull(id) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      if (el.requestFullscreen) {
-        el.requestFullscreen();
-      } else if (el.webkitRequestFullscreen) {
-        el.webkitRequestFullscreen();
-      } else if (el.msRequestFullscreen) {
-        el.msRequestFullscreen();
-      }
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.documentElement.setAttribute('data-theme', btn.dataset.theme);
+        localStorage.setItem('theme', btn.dataset.theme);
+      });
+    });
+
+    if (localStorage.getItem('theme')) {
+      const saved = localStorage.getItem('theme');
+      document.documentElement.setAttribute('data-theme', saved);
+      document.querySelector(`[data-theme="${saved}"]`).classList.add('active');
+    }
+
+    function launchChat(url) {
+      document.getElementById('chatFrame').src = url;
+      document.getElementById('chatOverlay').classList.add('active');
+    }
+
+    function closeChat() {
+      document.getElementById('chatOverlay').classList.remove('active');
+      document.getElementById('chatFrame').src = '';
     }
   </script>
 </body>
